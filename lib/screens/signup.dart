@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../const.dart';
 import '../main.dart';
@@ -21,6 +23,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   final emailController = TextEditingController();
   final contraController = TextEditingController();
   final contraConfirmController = TextEditingController();
+  final siguiendo = [];
+  final seguidores = [];
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +113,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: contraController.text.trim());
-      FirebaseAuth.instance.currentUser?.updateDisplayName(
+      await FirebaseAuth.instance.currentUser?.updateDisplayName(
           emailController.text.substring(0, emailController.text.indexOf('@')));
+      //await crearUsuario();
     } on FirebaseAuthException catch (e) {
       // ignore: avoid_print
       print(e);
@@ -118,5 +123,29 @@ class _RegisterWidgetState extends State<RegisterWidget> {
     }
 
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
+
+  Future crearUsuario() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    final docLloc =
+        FirebaseFirestore.instance.collection("usuarios").doc(user?.uid);
+
+    await docLloc.set({
+      'uid': user?.uid,
+      'nombre': user?.displayName,
+      'correo': user?.email,
+      'fotoPerfil': user?.photoURL ?? "",
+      'fechaCreacion': DateFormat("dd/MM/yyyy")
+          .format(user?.metadata.creationTime ?? DateTime.now())
+          .toString(),
+      'siguiendo': siguiendo,
+      'seguidores': seguidores
+    });
+
+    // ignore: use_build_context_synchronously
+    Navigator.pop(context);
+
+    Utils.showSnackBar("Usuario creado correctamente");
   }
 }

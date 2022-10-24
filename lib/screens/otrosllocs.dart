@@ -4,42 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:llocz/const.dart';
 
 import '../models.dart';
-import 'clloc.dart';
 import 'home.dart';
 import 'lloc.dart';
 
-class MisLlocs extends StatefulWidget {
-  const MisLlocs({Key? key}) : super(key: key);
+class OtrosLlocs extends StatefulWidget {
+  const OtrosLlocs(
+      {Key? key, required this.correoUser, required this.nombreUser})
+      : super(key: key);
+
+  final String correoUser;
+  final String nombreUser;
 
   @override
-  State<MisLlocs> createState() => _MisLlocsState();
+  State<OtrosLlocs> createState() => _OtrosLlocsState();
 }
 
-class _MisLlocsState extends State<MisLlocs> {
+class _OtrosLlocsState extends State<OtrosLlocs> {
   User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("${user!.displayName}",
+          title: Text(widget.nombreUser,
               style: const TextStyle(
                 fontSize: 20,
               )),
-          actions: <Widget>[
-            if (user?.email != null)
-              IconButton(
-                  icon: const Icon(
-                    Icons.post_add,
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: ((context) => const CLlocScreen())));
-                  })
-          ],
         ),
         body: StreamBuilder<List<Lloc>>(
-            stream: leerMisLlocS(),
+            stream: leerOtrosLlocs(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Text(
@@ -98,9 +90,9 @@ class _MisLlocsState extends State<MisLlocs> {
         )),
       );
 
-  Stream<List<Lloc>> leerMisLlocS() => FirebaseFirestore.instance
+  Stream<List<Lloc>> leerOtrosLlocs() => FirebaseFirestore.instance
       .collection('llocs')
-      .where("correo", isEqualTo: user?.email ?? "Anónimo")
+      .where("correo", isEqualTo: widget.correoUser)
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => Lloc.fromJson(doc.data())).toList());

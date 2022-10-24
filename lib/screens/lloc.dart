@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:llocz/const.dart';
 import 'package:llocz/screens/home.dart';
+import 'package:llocz/screens/otrosllocs.dart';
 import 'package:llocz/screens/perfil.dart';
 
 import '../models.dart';
@@ -19,6 +20,8 @@ class LlocScreen extends StatefulWidget {
 
 class _LlocScreenState extends State<LlocScreen> {
   User? user = FirebaseAuth.instance.currentUser;
+  final usuarioLloc = FirebaseFirestore.instance.collection("fotoPerfil");
+  String fotoPUser = "";
 
   @override
   Widget build(BuildContext context) {
@@ -86,108 +89,180 @@ class _LlocScreenState extends State<LlocScreen> {
                               ],
                             ));
                   },
-                  icon: const Icon(Icons.delete))
+                  icon: const Icon(Icons.delete)),
+            if (user?.email != lloc.correo)
+              IconButton(
+                  icon: const Icon(
+                    Icons.person_search,
+                    size: 25,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: ((context) => OtrosLlocs(
+                            correoUser: lloc.correo, nombreUser: lloc.autor))));
+                  }),
           ],
         ),
         body: SingleChildScrollView(
-            child: Padding(
-                padding: const EdgeInsets.all(kPadding),
-                child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Column(children: [
-                      if (user?.email == null)
-                        GestureDetector(
-                            onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const PerfilScreen())),
-                            child: const Text(
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: Column(children: [
+                  if (user?.email == null)
+                    GestureDetector(
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const PerfilScreen())),
+                        child: const Padding(
+                            padding: EdgeInsets.all(kPadding),
+                            child: Text(
                               "Registrate o inicia sesión para poder compartir lugares",
                               style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.blue,
                                   fontWeight: FontWeight.bold),
-                            )),
-                      if (user?.email == null)
-                        const SizedBox(
-                          height: 15,
-                        ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              lloc.nombre,
-                              style: const TextStyle(
-                                  fontSize: 27, fontWeight: FontWeight.bold),
+                            ))),
+                  if (user?.email != null)
+                    const SizedBox(
+                      height: kPadding,
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kPadding),
+                    child: Container(
+                      alignment: Alignment.topLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            lloc.nombre,
+                            style: const TextStyle(
+                                fontSize: 27, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "${lloc.categoria} en ${lloc.ubicacion}",
+                            style: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontSize: kFSize1,
                             ),
-                            Text(
-                              "${lloc.categoria} en ${lloc.ubicacion}",
-                              style: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontSize: kFSize1,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
                       ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kPadding),
+                    child:
+                        // Row(
+                        //   children: [
+                        //     Flexible(
+                        //         flex: 1,
+                        //         child: Column(children: [
+                        //           if (user?.photoURL == "")
+                        //             CircleAvatar(
+                        //               radius: 25,
+                        //               child: Text(lloc.autor[0].toUpperCase(),
+                        //                   style: const TextStyle(
+                        //                       fontSize: 20, color: Colors.white)),
+                        //             ),
+                        //           if (user?.photoURL != "")
+                        //             CircleAvatar(
+                        //                 radius: 25,
+                        //                 child: ClipOval(
+                        //                   child: Image.network(
+                        //                     fotoPUser,
+                        //                     width: 100,
+                        //                     height: 100,
+                        //                     fit: BoxFit.cover,
+                        //                   ),
+                        //                 ))
+                        //         ])),
+                        //     const SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Flexible(
+                        //       flex: 4,
+                        //       child:
+                        Container(
+                      alignment: Alignment.topLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            child: Text(
                               lloc.autor,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 12,
+                                fontSize: 16,
                               ),
                             ),
-                            Text(
-                              "Publicado el ${lloc.fechaPubl.substring(0, 10)} a las ${lloc.fechaPubl.substring(11, lloc.fechaPubl.length)}",
-                              style: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontSize: 10,
-                              ),
+                            onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => OtrosLlocs(
+                                        correoUser: lloc.correo,
+                                        nombreUser: lloc.autor))),
+                          ),
+                          Text(
+                            "Publicado el ${lloc.fechaPubl.substring(0, 10)} a las ${lloc.fechaPubl.substring(11, lloc.fechaPubl.length)}",
+                            style: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 14,
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      if (lloc.urlImagen != "")
-                        Image.network(
-                          lloc.urlImagen,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: RichText(
-                            text: TextSpan(
-                                text: lloc.autor,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: kFSize1,
-                                    color: Colors.black),
-                                children: [
-                              TextSpan(
-                                text: " ${lloc.desc}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: kFSize1),
-                              ),
-                            ])),
-                      ),
-                    ])))),
+                    ),
+                    //     )
+                    //   ],
+                    // ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  if (lloc.urlImagen != "")
+                    Image.network(
+                      lloc.urlImagen,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kPadding),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: GestureDetector(
+                          child: RichText(
+                              text: TextSpan(
+                                  text: lloc.autor,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: kFSize1,
+                                      color: Colors.black),
+                                  children: [
+                                TextSpan(
+                                  text: " ${lloc.desc}",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: kFSize1),
+                                ),
+                              ])),
+                          onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => OtrosLlocs(
+                                      correoUser: lloc.correo,
+                                      nombreUser: lloc.autor)))),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: kPadding,
+                  ),
+                ]))),
         bottomNavigationBar: bottomB(context),
       );
 

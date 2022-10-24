@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:llocz/screens/forgotpswd.dart';
+import 'package:llocz/screens/fotoperfil.dart';
 import 'package:llocz/screens/home.dart';
 import 'package:llocz/screens/perfil.dart';
 
@@ -133,6 +134,55 @@ class _EditarperfilScreenState extends State<EditarperfilScreen> {
                         const Align(
                           alignment: Alignment.topLeft,
                           child: Text(
+                            "Actualiza tu foto de perfil:",
+                            style: TextStyle(fontSize: kFSize1),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size.fromHeight(45),
+                            ),
+                            icon: const Icon(Icons.photo_camera_back, size: 25),
+                            label: const Text(
+                              "Subir/ Cambiar foto de perfil",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            onPressed: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const FotoPerfilScreen()))),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        if (user?.photoURL != null)
+                          CircleAvatar(
+                            radius: 50,
+                            child: ClipOval(
+                              child: Image.network(
+                                user?.photoURL ??
+                                    "https://i.picsum.photos/id/9/250/250.jpg?hmac=tqDH5wEWHDN76mBIWEPzg1in6egMl49qZeguSaH9_VI",
+                                width: 150,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        if (user?.photoURL == null)
+                          CircleAvatar(
+                            radius: 50,
+                            child: Text(user!.displayName![0].toUpperCase(),
+                                style: const TextStyle(
+                                    fontSize: 30, color: Colors.white)),
+                          ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
                             "Cambia tu contraseña:",
                             style: TextStyle(fontSize: kFSize1),
                           ),
@@ -154,12 +204,79 @@ class _EditarperfilScreenState extends State<EditarperfilScreen> {
                                     builder: (context) =>
                                         const ForgotPasswordScreen()))),
                         const SizedBox(
-                          height: 35,
+                          height: 25,
+                        ),
+                        const Divider(),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Borrar cuenta",
+                            style: TextStyle(fontSize: kFSize1 + 2),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
                         ),
                         const Text(
-                          "Ante cualquier duda o propuesta contacta con el siguiente correo electrónico: qallocs@gmail.com",
+                          'Se borrará toda tu información personal, a excepción de los lugares que has creado en la aplicación. Si quieres eliminar los lugares que tienes publicados, por favor elimínalos manualmente o ponte en contacto con "qallocs@gmail.com".',
                           style: TextStyle(fontStyle: FontStyle.italic),
-                        )
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size.fromHeight(30),
+                                backgroundColor: Colors.red),
+                            icon: const Icon(Icons.delete, size: 20),
+                            label: const Text(
+                              "Eliminar cuenta",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            onPressed: () => showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                      title: const Text('Eliminar cuenta'),
+                                      content: const Text(
+                                        '¿Seguro que quieres borrar tu cuenta? Ten en cuenta que los lugares que has publicado en la aplicación no serán eliminados. Si los quieres eliminar, por favor elimínalos manualmente o ponte en contacto con "qallocs@gmail.com".',
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'Cancel'),
+                                          child: const Text('Cancelar'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context, 'OK');
+                                            user?.delete();
+                                            // try {
+                                            //   final docUserInfo = FirebaseFirestore
+                                            //       .instance
+                                            //       .collection("usuarios")
+                                            //       .doc(user?.uid);
+                                            //   docUserInfo.delete();
+                                            // } catch (e) {
+                                            //   // ignore: avoid_print
+                                            //   print(e);
+                                            // }
+                                            Navigator.of(context)
+                                                .pushAndRemoveUntil(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const PerfilScreen()),
+                                                    (Route route) => false);
+                                          },
+                                          child: const Text('Sí'),
+                                        ),
+                                        Container(
+                                          height: 100,
+                                        )
+                                      ],
+                                    ))),
                       ],
                     )))),
         bottomNavigationBar: bottomB(context));

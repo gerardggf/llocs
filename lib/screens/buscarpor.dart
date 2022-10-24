@@ -146,7 +146,14 @@ class _BuscarPorScreenState extends State<BuscarPorScreen> {
   }
 
   Widget buildLlocs(Lloc lloc) => ListTile(
-        leading: Image.network(lloc.urlImagen, width: 50, height: 100),
+        leading: ClipOval(
+          child: Image.network(
+            lloc.urlImagen,
+            width: 55,
+            height: 100,
+            fit: BoxFit.cover,
+          ),
+        ),
         title: Text(lloc.nombre),
         isThreeLine: true,
         subtitle: RichText(

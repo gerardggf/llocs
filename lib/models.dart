@@ -43,3 +43,41 @@ class Lloc {
       urlImagen: json['urlImagen'],
       ubicacion: json['ubicacion']);
 }
+
+class Usuario {
+  String uid;
+  final String nombre;
+  final String correo;
+  final String fotoPerfil;
+  final String fechaCreacion;
+  final List siguiendo;
+  final List seguidores;
+
+  Usuario(
+      {this.uid = "",
+      required this.nombre,
+      required this.correo,
+      required this.fotoPerfil,
+      required this.fechaCreacion,
+      required this.siguiendo,
+      required this.seguidores});
+
+  Map<String, dynamic> toJson() => {
+        'uid': uid,
+        'nombre': nombre,
+        'correo': correo,
+        'fotoPerfil': fotoPerfil,
+        'fechaCreacion': fechaCreacion,
+        'siguiendo': siguiendo,
+        'seguidores': seguidores
+      };
+
+  static Usuario fromJson(Map<String, dynamic> json) => Usuario(
+      uid: json['uid'],
+      nombre: json['nombre'],
+      correo: json['correo'],
+      fotoPerfil: json['fotoPerfil'],
+      fechaCreacion: json['fechaCreacion'],
+      siguiendo: json['siguiendo'],
+      seguidores: json['seguidores']);
+}

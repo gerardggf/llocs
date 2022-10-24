@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:llocz/screens/autenticacion.dart';
 import 'package:llocz/screens/clloc.dart';
 import 'package:llocz/screens/editarperfil.dart';
+import 'package:llocz/screens/fotoperfil.dart';
+import 'package:llocz/screens/informacion.dart';
 import 'package:llocz/screens/verifyemail.dart';
 
 import '../const.dart';
@@ -59,10 +61,18 @@ class _LoggedWidgetState extends State<LoggedWidget> {
   final user = FirebaseAuth.instance.currentUser!;
 
   @override
+  void initState() {
+    super.initState();
+    user.photoURL;
+  }
+
+  @override
   Widget build(BuildContext context) {
     setState(() {
       user.displayName;
+      user.photoURL;
     });
+
     return SingleChildScrollView(
         child: Padding(
             padding: const EdgeInsets.all(kPadding),
@@ -70,11 +80,33 @@ class _LoggedWidgetState extends State<LoggedWidget> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
                     Widget>[
               Row(children: [
-                CircleAvatar(
-                  radius: 30,
-                  child: Text(user.displayName![0].toUpperCase(),
-                      style: const TextStyle(fontSize: 30)),
-                ),
+                if (user.photoURL != null)
+                  GestureDetector(
+                      child: CircleAvatar(
+                        radius: 40,
+                        child: ClipOval(
+                          child: Image.network(
+                            user.photoURL ??
+                                "https://i.picsum.photos/id/9/250/250.jpg?hmac=tqDH5wEWHDN76mBIWEPzg1in6egMl49qZeguSaH9_VI",
+                            width: 150,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const FotoPerfilScreen()))),
+                if (user.photoURL == null)
+                  GestureDetector(
+                    child: CircleAvatar(
+                      radius: 40,
+                      child: Text(user.displayName![0].toUpperCase(),
+                          style: const TextStyle(
+                              fontSize: 30, color: Colors.white)),
+                    ),
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const FotoPerfilScreen())),
+                  ),
                 const SizedBox(
                   width: 20,
                 ),
@@ -145,6 +177,19 @@ class _LoggedWidgetState extends State<LoggedWidget> {
                   ),
                   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const CLlocScreen()))),
+              TextButton.icon(
+                  icon: const Icon(
+                    Icons.info_outline_rounded,
+                    size: 25,
+                    color: Colors.black,
+                  ),
+                  label: const Text(
+                    "Información",
+                    style:
+                        TextStyle(fontSize: kFSize1 + 2, color: Colors.black),
+                  ),
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const InformacionScreen()))),
               const SizedBox(
                 height: 20,
               ),
@@ -152,7 +197,7 @@ class _LoggedWidgetState extends State<LoggedWidget> {
               ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size.fromHeight(40),
-                      primary: Colors.red),
+                      backgroundColor: Colors.red),
                   icon: const Icon(Icons.exit_to_app, size: 25),
                   label: const Text(
                     "Cerrar sesión",
@@ -177,6 +222,9 @@ class _LoggedWidgetState extends State<LoggedWidget> {
                                 },
                                 child: const Text('Sí'),
                               ),
+                              Container(
+                                height: 100,
+                              )
                             ],
                           ))),
             ])));

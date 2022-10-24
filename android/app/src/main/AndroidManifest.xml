@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.llocz">
+    package="com.sanfaina.llocs">
    <application
-        android:label="llocz"
+        android:label="Llocs"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

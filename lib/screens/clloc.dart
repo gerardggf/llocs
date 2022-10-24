@@ -23,11 +23,12 @@ class CLlocScreen extends StatefulWidget {
   State<CLlocScreen> createState() => _CLlocScreenState();
 }
 
-const List<String> list = <String>[
+const List<String> listaCategorias = <String>[
   "...",
   "Bosque",
   "Calle",
   "Edificio",
+  "Evento",
   "Festival",
   "Fuente",
   "Minas",
@@ -57,7 +58,7 @@ class _CLlocScreenState extends State<CLlocScreen> {
   UploadTask? uploadTask;
   final formKey = GlobalKey<FormState>();
 
-  String valoresCategoria = list.first;
+  String valoresCategoria = listaCategorias.first;
   Timer? tempPubl;
   bool puedePublicar = true;
 
@@ -135,7 +136,7 @@ class _CLlocScreenState extends State<CLlocScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      buildProgreso(),
+                      if (puedePublicar == false) buildProgreso(),
                       TextFormField(
                         controller: nNombre,
                         decoration: const InputDecoration(
@@ -167,7 +168,7 @@ class _CLlocScreenState extends State<CLlocScreen> {
                                       value != null && value == "..."
                                   ? "Selecciona una categoría"
                                   : null,
-                          items: list
+                          items: listaCategorias
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,

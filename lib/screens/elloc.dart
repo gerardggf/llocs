@@ -8,6 +8,7 @@ import 'package:llocz/screens/lloc.dart';
 
 import '../models.dart';
 import '../utils.dart';
+import 'clloc.dart';
 import 'home.dart';
 
 class ELlocScreen extends StatefulWidget {
@@ -57,6 +58,8 @@ class _ELlocScreenState extends State<ELlocScreen> {
   }
 
   Widget buildUpdateFormLloc(BuildContext context, Lloc lloc) {
+    String valoresCategoria = lloc.categoria;
+
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -84,11 +87,6 @@ class _ELlocScreenState extends State<ELlocScreen> {
                     if (ubicacion != "") {
                       ubicacion = ubicacion[0].toUpperCase() +
                           ubicacion.substring(1, ubicacion.length);
-                    }
-                    categoria = nCategoria.text.trim();
-                    if (categoria != "") {
-                      categoria = categoria[0].toUpperCase() +
-                          categoria.substring(1, categoria.length);
                     }
                     desc = nDesc.text.trim();
 
@@ -132,16 +130,35 @@ class _ELlocScreenState extends State<ELlocScreen> {
                             ? "Rellena el campo"
                             : null,
                       ),
-                      TextFormField(
-                        controller: nCategoria..text = lloc.categoria,
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.category),
-                            labelText: 'Categoría',
-                            hintText: "Ej: Mirador, pozas, lago, parque..."),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) => value != null && value.isEmpty
-                            ? "Rellena el campo"
-                            : null,
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      DropdownButtonFormField<String>(
+                          decoration: const InputDecoration(
+                              labelText: "Categoria",
+                              prefixIcon: Icon(Icons.category)),
+                          value: valoresCategoria,
+                          icon: const Icon(Icons.arrow_downward),
+                          onChanged: (String? value) {
+                            setState(() {
+                              valoresCategoria = value!;
+                              categoria = valoresCategoria;
+                            });
+                          },
+                          validator: (value) =>
+                              value != null && value.isEmpty ||
+                                      value != null && value == "..."
+                                  ? "Selecciona una categoría"
+                                  : null,
+                          items: listaCategorias
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList()),
+                      const SizedBox(
+                        height: 5,
                       ),
                       TextFormField(
                         controller: nUbicacion..text = lloc.ubicacion,

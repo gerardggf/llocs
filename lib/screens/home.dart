@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Image.asset(
-            "assets/img/logo_app.png",
+            "assets/img/logo_app_grande.png",
             height: 350,
             width: 130,
           ),
@@ -47,7 +47,15 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (snapshot.hasData) {
                 final llocs = snapshot.data!;
 
-                return ListView(children: llocs.map(buildLlocs).toList());
+                return GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 3.0,
+                  childAspectRatio: 2 / 2.5,
+                  mainAxisSpacing: 3.0,
+                  children: llocs.map(buildLlocsH).toList(),
+                );
+
+                //ListView(children: llocs.map(buildLlocs).toList());
               } else {
                 return const Center(
                   child: CircularProgressIndicator(),
@@ -57,36 +65,37 @@ class _HomeScreenState extends State<HomeScreen> {
         bottomNavigationBar: bottomB(context));
   }
 
-  Widget buildLlocs(Lloc lloc) => ListTile(
-        leading: Image.network(lloc.urlImagen, width: 50, height: 100),
-        title: Text(lloc.nombre),
-        isThreeLine: true,
-        subtitle: RichText(
-          text: TextSpan(
-              text: "${lloc.categoria} en ${lloc.ubicacion}\n",
+  Widget buildLlocsH(Lloc lloc) => GestureDetector(
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => LlocScreen(
+            idLloc: lloc.id,
+          ),
+        )),
+        child: (GridTile(
+          header: GridTileBar(
+            backgroundColor: Colors.white70,
+            title: Text(
+              lloc.nombre,
               style: const TextStyle(
-                  color: Color.fromARGB(255, 77, 99, 110),
-                  fontWeight: FontWeight.w500),
-              children: [
-                TextSpan(
-                    text: lloc.autor,
-                    style: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey)),
-              ]),
-        ),
-        trailing: Text(
-          "${lloc.fechaPubl.substring(0, 10)}\n${lloc.fechaPubl.substring(10, lloc.fechaPubl.length)}",
-          textAlign: TextAlign.end,
-        ),
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => LlocScreen(
-              idLloc: lloc.id,
+                  color: Colors.black, fontWeight: FontWeight.bold),
             ),
-          ));
-        },
+          ),
+          footer: GridTileBar(
+            backgroundColor: Colors.white70,
+            title: Text(
+              "${lloc.categoria} en ${lloc.ubicacion}",
+              style: const TextStyle(color: Colors.black),
+            ),
+            subtitle:
+                Text(lloc.autor, style: const TextStyle(color: Colors.black54)),
+          ),
+          child: Image.network(
+            lloc.urlImagen,
+            width: 55,
+            height: 100,
+            fit: BoxFit.cover,
+          ),
+        )),
       );
 
   Stream<List<Lloc>> leerLlocS() => FirebaseFirestore.instance
