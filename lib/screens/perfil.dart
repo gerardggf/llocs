@@ -194,14 +194,18 @@ class _LoggedWidgetState extends State<LoggedWidget> {
                 height: 20,
               ),
               const Divider(),
-              ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(40),
-                      backgroundColor: Colors.red),
-                  icon: const Icon(Icons.exit_to_app, size: 25),
+              TextButton.icon(
+                  style: TextButton.styleFrom(
+                    minimumSize: const Size.fromHeight(40),
+                  ),
+                  icon: const Icon(
+                    Icons.exit_to_app,
+                    size: 25,
+                    color: Colors.red,
+                  ),
                   label: const Text(
                     "Cerrar sesión",
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 18, color: Colors.red),
                   ),
                   onPressed: () => showDialog<String>(
                       context: context,

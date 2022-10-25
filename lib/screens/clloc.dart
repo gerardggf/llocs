@@ -272,6 +272,7 @@ class _CLlocScreenState extends State<CLlocScreen> {
       'correo': user?.email ?? "Sin correo asignado",
       'urlImagen': urlDownload,
       'ubicacion': ubicacion,
+      'likes': 0
     };
 
     await docLloc.set(jsonDatos);

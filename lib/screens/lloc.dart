@@ -115,9 +115,9 @@ class _LlocScreenState extends State<LlocScreen> {
                         child: const Padding(
                             padding: EdgeInsets.all(kPadding),
                             child: Text(
-                              "Registrate o inicia sesión para poder compartir lugares",
+                              "Regístrate o inicia sesión aquí para poder compartir tus lugares",
                               style: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: 15,
                                   color: Colors.blue,
                                   fontWeight: FontWeight.bold),
                             ))),

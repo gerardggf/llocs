@@ -100,8 +100,8 @@ class _FotoPerfilScreenState extends State<FotoPerfilScreen> {
             height: kPadding,
           ),
           if (puedePublicar == true)
-            ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
+            TextButton.icon(
+                style: TextButton.styleFrom(
                   minimumSize: const Size.fromHeight(45),
                 ),
                 icon: const Icon(Icons.save, size: 25),

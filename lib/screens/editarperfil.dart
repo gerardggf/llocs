@@ -81,19 +81,20 @@ class _EditarperfilScreenState extends State<EditarperfilScreen> {
                                   value != null &&
                                       value.contains(RegExp(
                                           r'[+!@#%^&*(),?":;{}|/<>®©£¢€¥∆¶×~=°℅™÷π√•`$]'))
-                              ? "Mínimo 4 carácteres y sin espacios. Solo se aceptan '.-_'"
+                              ? 'Mínimo 4 carácteres. Se aceptan: ".-_"'
                               : null,
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
+                        TextButton.icon(
+                            style: TextButton.styleFrom(
                                 minimumSize: const Size.fromHeight(40)),
                             icon: const Icon(Icons.save, size: 25),
                             label: const Text(
-                              "Guardar cambios",
-                              style: TextStyle(fontSize: 18),
+                              "Actualizar nombre de usuario",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             onPressed: () {
                               final isValid = formKey.currentState!.validate();
@@ -141,14 +142,16 @@ class _EditarperfilScreenState extends State<EditarperfilScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
+                        TextButton.icon(
+                            style: TextButton.styleFrom(
                               minimumSize: const Size.fromHeight(45),
                             ),
                             icon: const Icon(Icons.photo_camera_back, size: 25),
                             label: const Text(
                               "Subir/ Cambiar foto de perfil",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                  fontSize: kFSize1,
+                                  fontWeight: FontWeight.bold),
                             ),
                             onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -184,20 +187,23 @@ class _EditarperfilScreenState extends State<EditarperfilScreen> {
                           alignment: Alignment.topLeft,
                           child: Text(
                             "Cambia tu contraseña:",
-                            style: TextStyle(fontSize: kFSize1),
+                            style: TextStyle(
+                                fontSize: kFSize1, fontWeight: FontWeight.bold),
                           ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
+                        TextButton.icon(
+                            style: TextButton.styleFrom(
                               minimumSize: const Size.fromHeight(45),
                             ),
                             icon: const Icon(Icons.restart_alt, size: 25),
                             label: const Text(
                               "Restablecer contraseña",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                  fontSize: kFSize1,
+                                  fontWeight: FontWeight.bold),
                             ),
                             onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
