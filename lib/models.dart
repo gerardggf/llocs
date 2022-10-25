@@ -8,6 +8,7 @@ class Lloc {
   final String correo;
   final String urlImagen;
   final String ubicacion;
+  final int likes;
 
   Lloc(
       {this.id = "",
@@ -18,7 +19,8 @@ class Lloc {
       required this.autor,
       required this.correo,
       required this.urlImagen,
-      required this.ubicacion});
+      required this.ubicacion,
+      required this.likes});
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -29,7 +31,8 @@ class Lloc {
         'autor': autor,
         'correo': correo,
         'urlImagen': urlImagen,
-        'ubicacion': ubicacion
+        'ubicacion': ubicacion,
+        'likes': likes
       };
 
   static Lloc fromJson(Map<String, dynamic> json) => Lloc(
@@ -41,7 +44,8 @@ class Lloc {
       autor: json['autor'],
       correo: json['correo'],
       urlImagen: json['urlImagen'],
-      ubicacion: json['ubicacion']);
+      ubicacion: json['ubicacion'],
+      likes: json['likes']);
 }
 
 class Usuario {

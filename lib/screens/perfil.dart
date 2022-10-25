@@ -26,7 +26,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
         appBar: AppBar(
           title: const Text(
             "Perfil",
-            style: TextStyle(fontSize: 27, fontFamily: 'MVBoli'),
+            style: TextStyle(fontSize: 25),
           ),
         ),
         body: StreamBuilder<User?>(

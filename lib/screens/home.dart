@@ -21,10 +21,24 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Image.asset(
-            "assets/img/logo_app_grande.png",
-            height: 350,
-            width: 130,
+          title: Row(
+            children: [
+              Image.asset(
+                "assets/img/app_logo_sin_fondo.png",
+                height: 40,
+                width: 40,
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              const Text(
+                "llocs",
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic),
+              ),
+            ],
           ),
           actions: <Widget>[
             if (user?.email != null)

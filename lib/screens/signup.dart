@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../const.dart';
 import '../main.dart';
 import '../utils.dart';
+import 'informacion.dart';
 
 class RegisterWidget extends StatefulWidget {
   final VoidCallback onClickedSignUp;
@@ -93,7 +94,18 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       style: const TextStyle(
                           color: Colors.blueAccent,
                           fontWeight: FontWeight.bold))
-                ]))
+                ])),
+            const SizedBox(
+              height: 30,
+            ),
+            GestureDetector(
+                child: Image.asset(
+                  "assets/img/app_logo_sin_fondo_negro.png",
+                  height: 100,
+                  width: 100,
+                ),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: ((context) => const InformacionScreen()))))
           ])),
     ));
   }

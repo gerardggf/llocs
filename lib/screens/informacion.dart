@@ -31,15 +31,28 @@ class _InformacionScreenState extends State<InformacionScreen> {
                     ),
                   ],
                 ),
-                child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Image.asset("assets/img/logo_app_grande.png")
-                    // Text(
-                    //   "llocs",
-                    //   style: TextStyle(
-                    //       fontSize: kFSize1 + 15, fontWeight: FontWeight.bold),
-                    // ),
-                    ),
+                child: Center(
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        "assets/img/app_logo_sin_fondo.png",
+                        width: 120,
+                        height: 120,
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      const Text(
+                        "llocs",
+                        style: TextStyle(
+                            fontSize: 60,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(height: 25),
               RichText(
