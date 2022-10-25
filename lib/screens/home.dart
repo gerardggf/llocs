@@ -77,17 +77,29 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Text(
               lloc.nombre,
               style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.bold),
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
             ),
           ),
           footer: GridTileBar(
             backgroundColor: Colors.white70,
-            title: Text(
-              "${lloc.categoria} en ${lloc.ubicacion}",
-              style: const TextStyle(color: Colors.black),
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${lloc.categoria} en ${lloc.ubicacion}",
+                    style: const TextStyle(color: Colors.black, fontSize: 12),
+                  ),
+                  Text(lloc.autor,
+                      style:
+                          const TextStyle(color: Colors.black54, fontSize: 12)),
+                ],
+              ),
             ),
-            subtitle:
-                Text(lloc.autor, style: const TextStyle(color: Colors.black54)),
           ),
           child: Image.network(
             lloc.urlImagen,
