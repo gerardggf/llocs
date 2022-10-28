@@ -127,6 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Stream<List<Lloc>> leerLlocS() => FirebaseFirestore.instance
       .collection('llocs')
       .orderBy("fechaPubl", descending: true)
+      .limit(30)
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => Lloc.fromJson(doc.data())).toList());

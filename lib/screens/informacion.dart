@@ -73,14 +73,14 @@ class _InformacionScreenState extends State<InformacionScreen> {
                   ])),
               const SizedBox(height: 40),
               const Text(
-                "Ante cualquier duda o propuesta contacta con el siguiente correo electrónico:",
+                "Ante cualquier duda o propuesta contacta con uno de los siguientes correos electrónicos:",
                 style: TextStyle(fontSize: kFSize1),
               ),
               const SizedBox(height: 5),
               const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  "qallocs@gmail.com",
+                  "qallocs@gmail.com\ngerard.ggf@gmail.com",
                   style:
                       TextStyle(fontWeight: FontWeight.bold, fontSize: kFSize1),
                 ),
