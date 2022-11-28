@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:llocz/utils/const.dart';
+import 'package:llocs/utils/const.dart';
 
 import 'models/lloc_model.dart';
 import 'widgets_globales/bottom_nav_bar.dart';
 import 'ui_screens/lloc/clloc.dart';
-import 'ui_screens/home/widgets/home_item.dart';
+import 'widgets_globales/lloc_item.dart';
 
 class MisLlocs extends StatefulWidget {
   const MisLlocs({Key? key}) : super(key: key);

@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:llocz/utils/const.dart';
+import 'package:llocs/utils/const.dart';
 
 import '../models/lloc_model.dart';
 import '../widgets_globales/bottom_nav_bar.dart';
-import 'lloc/lloc.dart';
+import '../widgets_globales/lloc_item.dart';
 
 class OtrosLlocs extends StatefulWidget {
   const OtrosLlocs(
@@ -50,11 +50,11 @@ class _OtrosLlocsState extends State<OtrosLlocs> {
                     ),
                   ));
                 }
-                return GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 3.0,
-                  mainAxisSpacing: 3.0,
-                  children: llocs.map(buildLlocsH).toList(),
+                return ListView.builder(
+                  itemBuilder: (_, index) => HomeItem(
+                      infoLloc: llocs[index],
+                      isFirst: index == 0 ? true : false),
+                  itemCount: llocs.length,
                 );
               } else {
                 return const Center(
@@ -64,31 +64,6 @@ class _OtrosLlocsState extends State<OtrosLlocs> {
             }),
         bottomNavigationBar: const CustomBottomNavBar());
   }
-
-  Widget buildLlocsH(Lloc lloc) => GestureDetector(
-        onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => LlocScreen(
-            idLloc: lloc.id,
-          ),
-        )),
-        child: (GridTile(
-          footer: GridTileBar(
-            backgroundColor: Colors.white70,
-            title: Text(
-              lloc.nombre,
-              style: const TextStyle(color: Colors.black),
-            ),
-            subtitle: Text("${lloc.categoria} en ${lloc.ubicacion}",
-                style: const TextStyle(color: Colors.black54)),
-          ),
-          child: Image.network(
-            lloc.urlImagen,
-            width: 55,
-            height: 100,
-            fit: BoxFit.cover,
-          ),
-        )),
-      );
 
   Stream<List<Lloc>> leerOtrosLlocs() => FirebaseFirestore.instance
       .collection('llocs')

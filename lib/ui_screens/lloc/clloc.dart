@@ -7,8 +7,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:llocz/utils/const.dart';
+import 'package:llocs/utils/const.dart';
 import 'package:intl/intl.dart';
+import 'package:llocs/utils/progress_bar.dart';
+import 'package:llocs/widgets_globales/app_bar_text_icon.dart';
+import 'package:llocs/widgets_globales/item_button.dart';
 import 'package:path_provider/path_provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
@@ -51,7 +54,7 @@ class _CLlocScreenState extends State<CLlocScreen> {
           ),
           actions: [
             if (puedePublicar != false)
-              TextButton.icon(
+              CustomTextIcon(
                 onPressed: () {
                   tempPubl = Timer.periodic(const Duration(seconds: 5), (_) {
                     puedePublicar = true;
@@ -87,18 +90,8 @@ class _CLlocScreenState extends State<CLlocScreen> {
                         "No puedes volver a publicar hasta pasados 5 segundos");
                   }
                 },
-                icon: const Icon(
-                  Icons.send_rounded,
-                  color: Colors.white,
-                  size: 15,
-                ),
-                label: const Text(
-                  "Publicar  ",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: kFSize1,
-                      color: Colors.white),
-                ),
+                iconData: Icons.send_rounded,
+                text: "Publicar",
               ),
           ],
         ),
@@ -110,7 +103,10 @@ class _CLlocScreenState extends State<CLlocScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      if (puedePublicar == false) buildProgreso(),
+                      if (puedePublicar == false)
+                        ProgressBar(
+                          uploadTask: uploadTask,
+                        ),
                       TextFormField(
                         controller: nNombre,
                         decoration: const InputDecoration(
@@ -118,8 +114,9 @@ class _CLlocScreenState extends State<CLlocScreen> {
                           labelText: 'Nombre',
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) => value != null && value.isEmpty
-                            ? "Rellena el campo"
+                        validator: (value) => value != null && value.isEmpty ||
+                                value != null && value.length >= 20
+                            ? "El campo debe contener entre 1 y 20 carácteres"
                             : null,
                       ),
                       const SizedBox(
@@ -161,8 +158,9 @@ class _CLlocScreenState extends State<CLlocScreen> {
                               "Ej: Municipio, província, parque natural...",
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) => value != null && value.isEmpty
-                            ? "Rellena el campo"
+                        validator: (value) => value != null && value.isEmpty ||
+                                value != null && value.length >= 20
+                            ? "El campo debe contener entre 1 y 20 carácteres"
                             : null,
                       ),
                       TextFormField(
@@ -175,8 +173,9 @@ class _CLlocScreenState extends State<CLlocScreen> {
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) => value != null && value.isEmpty
-                            ? "Rellena el campo"
+                        validator: (value) => value != null && value.isEmpty ||
+                                value != null && value.length >= 250
+                            ? "El campo debe contener entre 1 y 250 carácteres"
                             : null,
                       ),
                       const SizedBox(
@@ -185,51 +184,15 @@ class _CLlocScreenState extends State<CLlocScreen> {
                       if (pickedFile != null)
                         Image.file(File(pickedFile!.path!),
                             width: double.infinity, height: 250),
-                      TextButton.icon(
-                          style: TextButton.styleFrom(
-                              minimumSize: const Size.fromHeight(50)),
-                          icon: const Icon(Icons.add_a_photo,
-                              color: Colors.black),
-                          onPressed: selectFile,
-                          label: const Text(
-                            "Seleccionar imagen",
-                            style: TextStyle(
-                                fontSize: kFSize1, color: Colors.black),
-                          )),
+                      CustomItemButton(
+                          iconData: Icons.add_a_photo,
+                          text: "Seleccionar Imagen",
+                          onPressed: selectFile),
                     ],
                   ))),
         ),
         bottomNavigationBar: const CustomBottomNavBar());
   }
-
-  Widget buildProgreso() => StreamBuilder<TaskSnapshot>(
-        stream: uploadTask?.snapshotEvents,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final datos = snapshot.data!;
-            double progreso = datos.bytesTransferred / datos.totalBytes;
-
-            return SizedBox(
-                height: 50,
-                child: Stack(fit: StackFit.expand, children: [
-                  LinearProgressIndicator(
-                      value: progreso,
-                      backgroundColor: Colors.grey,
-                      color: Colors.green),
-                  Center(
-                    child: Text(
-                      "${(100 * progreso).roundToDouble()}%",
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  )
-                ]));
-          } else {
-            return const SizedBox(
-              height: 50,
-            );
-          }
-        },
-      );
 
   Future crearLloc() async {
     final docLloc = FirebaseFirestore.instance.collection("llocs").doc();

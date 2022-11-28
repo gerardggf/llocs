@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/const.dart';
+import '../utils/const.dart';
 
-class ItemPerfil extends StatelessWidget {
-  const ItemPerfil(
+class CustomItemButton extends StatelessWidget {
+  const CustomItemButton(
       {super.key,
       required this.iconData,
       required this.text,

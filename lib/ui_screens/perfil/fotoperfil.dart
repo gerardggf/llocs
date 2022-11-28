@@ -5,9 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:llocz/utils/alert_dialog.dart';
-import 'package:llocz/utils/const.dart';
-import 'package:llocz/ui_screens/perfil/pantallas_loggeo.dart';
+import 'package:llocs/utils/alert_dialog.dart';
+import 'package:llocs/utils/const.dart';
+import 'package:llocs/ui_screens/perfil/pantallas_loggeo.dart';
 import 'package:path_provider/path_provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;

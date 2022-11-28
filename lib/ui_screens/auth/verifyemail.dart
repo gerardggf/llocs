@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:llocz/utils/const.dart';
+import 'package:llocs/utils/const.dart';
 
 import '../../utils/snack_bar.dart';
 import '../perfil/perfil.dart';

@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:llocz/utils/const.dart';
+import 'package:llocs/utils/const.dart';
 
 import '../models/lloc_model.dart';
 import '../widgets_globales/bottom_nav_bar.dart';
-import 'home/widgets/home_item.dart';
+import '../widgets_globales/lloc_item.dart';
 
 class BuscarPorScreen extends StatefulWidget {
   const BuscarPorScreen({super.key});

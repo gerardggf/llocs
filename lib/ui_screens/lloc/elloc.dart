@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:llocz/utils/const.dart';
-import 'package:llocz/ui_screens/lloc/lloc.dart';
-import 'package:llocz/widgets_globales/bottom_nav_bar.dart';
+import 'package:llocs/utils/const.dart';
+import 'package:llocs/ui_screens/lloc/lloc.dart';
+import 'package:llocs/utils/progress_bar.dart';
+import 'package:llocs/widgets_globales/app_bar_text_icon.dart';
+import 'package:llocs/widgets_globales/bottom_nav_bar.dart';
 
 import '../../models/lloc_model.dart';
 import '../../utils/categorias.dart';
@@ -68,7 +70,7 @@ class _ELlocScreenState extends State<ELlocScreen> {
           ),
           actions: [
             if (puedePublicar != false)
-              TextButton.icon(
+              CustomTextIcon(
                 onPressed: () {
                   tempPubl = Timer.periodic(const Duration(seconds: 5), (_) {
                     puedePublicar = true;
@@ -97,18 +99,8 @@ class _ELlocScreenState extends State<ELlocScreen> {
                         "No puedes volver a publicar hasta pasados 5 segundos");
                   }
                 },
-                icon: const Icon(
-                  Icons.refresh_rounded,
-                  color: Colors.white,
-                  size: 25,
-                ),
-                label: const Text(
-                  "Actualizar  ",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: kFSize1,
-                      color: Colors.white),
-                ),
+                iconData: Icons.refresh_rounded,
+                text: "Actualizar",
               ),
           ],
         ),
@@ -127,8 +119,9 @@ class _ELlocScreenState extends State<ELlocScreen> {
                           labelText: 'Nombre',
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) => value != null && value.isEmpty
-                            ? "Rellena el campo"
+                        validator: (value) => value != null && value.isEmpty ||
+                                value != null && value.length >= 20
+                            ? "El campo debe contener entre 1 y 20 carácteres"
                             : null,
                       ),
                       const SizedBox(
@@ -169,8 +162,9 @@ class _ELlocScreenState extends State<ELlocScreen> {
                           hintText: "Ej: Ciudad, província, parque natural...",
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) => value != null && value.isEmpty
-                            ? "Rellena el campo"
+                        validator: (value) => value != null && value.isEmpty ||
+                                value != null && value.length >= 20
+                            ? "El campo debe contener entre 1 y 20 carácteres"
                             : null,
                       ),
                       TextFormField(
@@ -183,8 +177,9 @@ class _ELlocScreenState extends State<ELlocScreen> {
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) => value != null && value.isEmpty
-                            ? "Rellena el campo"
+                        validator: (value) => value != null && value.isEmpty ||
+                                value != null && value.length >= 250
+                            ? "El campo debe contener entre 1 y 250 carácteres"
                             : null,
                       ),
                       const SizedBox(
@@ -196,41 +191,14 @@ class _ELlocScreenState extends State<ELlocScreen> {
                         fit: BoxFit.cover,
                       ),
                       //    width: double.infinity, height: 250),
-                      buildProgreso(),
+                      ProgressBar(
+                        uploadTask: uploadTask,
+                      )
                     ],
                   ))),
         ),
         bottomNavigationBar: const CustomBottomNavBar());
   }
-
-  Widget buildProgreso() => StreamBuilder<TaskSnapshot>(
-        stream: uploadTask?.snapshotEvents,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final datos = snapshot.data!;
-            double progreso = datos.bytesTransferred / datos.totalBytes;
-
-            return SizedBox(
-                height: 50,
-                child: Stack(fit: StackFit.expand, children: [
-                  LinearProgressIndicator(
-                      value: progreso,
-                      backgroundColor: Colors.grey,
-                      color: Colors.green),
-                  Center(
-                    child: Text(
-                      "${(100 * progreso).roundToDouble()}%",
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  )
-                ]));
-          } else {
-            return const SizedBox(
-              height: 50,
-            );
-          }
-        },
-      );
 
   Future editarLloc() async {
     final docLloc =
@@ -240,7 +208,6 @@ class _ELlocScreenState extends State<ELlocScreen> {
       'nombre': nombre,
       'categoria': categoria,
       'desc': desc,
-      //'urlImagen': urlDownload,
       'ubicacion': ubicacion,
     };
 

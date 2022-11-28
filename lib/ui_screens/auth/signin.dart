@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:llocz/informacion.dart';
+import 'package:llocs/informacion.dart';
 
 import '../../utils/const.dart';
 import '../../main.dart';

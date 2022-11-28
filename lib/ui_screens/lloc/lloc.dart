@@ -3,15 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:llocz/utils/alert_dialog.dart';
-import 'package:llocz/utils/const.dart';
-import 'package:llocz/ui_screens/otrosllocs.dart';
-import 'package:llocz/ui_screens/perfil/pantallas_loggeo.dart';
-import 'package:llocz/widgets_globales/app_bar_icons.dart';
+import 'package:llocs/utils/alert_dialog.dart';
+import 'package:llocs/utils/const.dart';
+import 'package:llocs/ui_screens/otrosllocs.dart';
+import 'package:llocs/ui_screens/perfil/pantallas_loggeo.dart';
+import 'package:llocs/widgets_globales/app_bar_icons.dart';
 import '../../models/lloc_model.dart';
 import '../../utils/snack_bar.dart';
 import '../../widgets_globales/bottom_nav_bar.dart';
 import 'elloc.dart';
+import 'widgets/descripcion.dart';
+import 'widgets/encabezado.dart';
 
 class LlocScreen extends StatefulWidget {
   const LlocScreen({Key? key, required this.idLloc}) : super(key: key);
@@ -158,135 +160,46 @@ class _LlocScreenState extends State<LlocScreen> {
               ),
           ],
         ),
-        body: SingleChildScrollView(
-            child: Align(
-                alignment: Alignment.topLeft,
-                child: Column(children: [
-                  if (user?.email == null)
-                    GestureDetector(
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const PantallasLoggeo())),
-                        child: const Padding(
-                            padding: EdgeInsets.all(kPadding),
-                            child: Text(
-                              "Regístrate o inicia sesión aquí para poder compartir tus lugares",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold),
-                            ))),
-                  if (user?.email != null)
-                    const SizedBox(
-                      height: kPadding,
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kPadding),
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            lloc.nombre,
-                            style: const TextStyle(
-                                fontSize: 27, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "${lloc.categoria} en ${lloc.ubicacion}",
-                            style: const TextStyle(
-                              fontStyle: FontStyle.italic,
-                              fontSize: kFSize1,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kPadding),
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            child: Text(
-                              lloc.autor,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => OtrosLlocs(
-                                        correoUser: lloc.correo,
-                                        nombreUser: lloc.autor))),
-                          ),
-                          Text(
-                            "Publicado el ${lloc.fechaPubl.substring(0, 10)} a las ${lloc.fechaPubl.substring(11, lloc.fechaPubl.length)}",
-                            style: const TextStyle(
-                              fontStyle: FontStyle.italic,
-                              fontSize: 14,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                        ],
-                      ),
-                    ),
-                    //     )
-                    //   ],
-                    // ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  if (lloc.urlImagen != "")
-                    Image.network(
-                      lloc.urlImagen,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kPadding),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: GestureDetector(
-                          child: RichText(
-                              text: TextSpan(
-                                  text: lloc.autor,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: kFSize1,
-                                      color: Colors.black),
-                                  children: [
-                                TextSpan(
-                                  text: " ${lloc.desc}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: kFSize1),
-                                ),
-                              ])),
-                          onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => OtrosLlocs(
-                                      correoUser: lloc.correo,
-                                      nombreUser: lloc.autor)))),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: kPadding,
-                  ),
-                ]))),
+        body: Column(children: [
+          if (user?.email == null)
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: GestureDetector(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const PantallasLoggeo())),
+                  child: const Padding(
+                      padding: EdgeInsets.all(kPadding),
+                      child: Text(
+                        "Regístrate o inicia sesión aquí para poder compartir tus lugares",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold),
+                      ))),
+            ),
+          Encabezado(
+            autor: lloc.autor,
+            categoria: lloc.categoria,
+            ubicacion: lloc.ubicacion,
+            nombre: lloc.nombre,
+            fechaPubl: lloc.fechaPubl,
+            correo: lloc.correo,
+          ),
+          Expanded(
+            child: Image.network(
+              lloc.urlImagen,
+              width: double.infinity,
+              height: 400,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Descripcion(
+            autor: lloc.autor,
+            correo: lloc.correo,
+            desc: lloc.desc,
+          ),
+        ]),
         bottomNavigationBar: const CustomBottomNavBar(),
       );
 

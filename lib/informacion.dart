@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:llocz/utils/const.dart';
+import 'package:llocs/utils/const.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'widgets_globales/bottom_nav_bar.dart';

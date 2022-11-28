@@ -2,8 +2,8 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:llocz/utils/const.dart';
-import 'package:llocz/utils/snack_bar.dart';
+import 'package:llocs/utils/const.dart';
+import 'package:llocs/utils/snack_bar.dart';
 
 import 'ui_screens/home/home.dart';
 

@@ -10,7 +10,7 @@ import '../editarperfil.dart';
 import '../lloc/clloc.dart';
 import 'fotoperfil.dart';
 import '../../misllocs.dart';
-import 'widgets/item_perfil.dart';
+import '../../widgets_globales/item_button.dart';
 
 class PerfilScreen extends StatefulWidget {
   const PerfilScreen({Key? key}) : super(key: key);
@@ -106,7 +106,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     width: 20,
                   ),
                   const Divider(),
-                  ItemPerfil(
+                  CustomItemButton(
                     iconData: Icons.list,
                     text: "Ver mis publicaciones",
                     onPressed: () => Navigator.of(context).push(
@@ -115,7 +115,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                       ),
                     ),
                   ),
-                  ItemPerfil(
+                  CustomItemButton(
                     iconData: Icons.person,
                     text: "Editar perfil",
                     onPressed: () => Navigator.of(context).push(
@@ -124,7 +124,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                       ),
                     ),
                   ),
-                  ItemPerfil(
+                  CustomItemButton(
                     iconData: Icons.post_add,
                     text: "Publicar nuevo lugar",
                     onPressed: () => Navigator.of(context).push(
@@ -133,7 +133,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                       ),
                     ),
                   ),
-                  ItemPerfil(
+                  CustomItemButton(
                     iconData: Icons.info_outline_rounded,
                     text: "Información",
                     onPressed: () => Navigator.of(context).push(
@@ -142,7 +142,8 @@ class _PerfilScreenState extends State<PerfilScreen> {
                       ),
                     ),
                   ),
-                  ItemPerfil(
+                  const Divider(),
+                  CustomItemButton(
                       iconData: Icons.exit_to_app,
                       text: "Cerrar sesión",
                       color: Colors.red,

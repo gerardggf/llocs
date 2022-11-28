@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:llocz/utils/const.dart';
+import 'package:llocs/utils/const.dart';
 
-import '../../../models/lloc_model.dart';
-import '../../lloc/lloc.dart';
+import '../models/lloc_model.dart';
+import '../ui_screens/lloc/lloc.dart';
 
 class HomeItem extends StatelessWidget {
   const HomeItem({super.key, required this.infoLloc, this.isFirst = false});
@@ -30,30 +30,32 @@ class HomeItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(kPadding),
+                padding: const EdgeInsets.all(kPadding - 2),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                      child: Text(
-                        infoLloc.nombre,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w800, fontSize: kFSize1 + 2),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            infoLloc.nombre,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: kFSize1 + 2),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            infoLloc.categoria,
+                            textAlign: TextAlign.end,
+                          ),
+                        ],
                       ),
                     ),
-                    Column(
-                      children: [
-                        Text(
-                          infoLloc.fechaPubl,
-                          style: const TextStyle(fontStyle: FontStyle.italic),
-                        ),
-                        Text(
-                          infoLloc.categoria,
-                          textAlign: TextAlign.end,
-                        ),
-                      ],
+                    Text(
+                      infoLloc.fechaPubl,
+                      style: const TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ],
                 ),
@@ -76,7 +78,7 @@ class HomeItem extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(kPadding),
+                padding: const EdgeInsets.all(kPadding - 2),
                 child: RichText(
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:llocz/utils/const.dart';
+import 'package:llocs/utils/const.dart';
 
 class AppBarIcons extends StatelessWidget {
   const AppBarIcons(

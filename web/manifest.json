@@ -1,6 +1,6 @@
 {
-  "name": "llocz",
-  "short_name": "llocz",
+  "name": "llocs",
+  "short_name": "llocs",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#hexcode",

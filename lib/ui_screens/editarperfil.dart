@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:llocz/ui_screens/auth/forgotpswd.dart';
-import 'package:llocz/ui_screens/perfil/fotoperfil.dart';
-import 'package:llocz/ui_screens/perfil/pantallas_loggeo.dart';
+import 'package:llocs/ui_screens/auth/forgotpswd.dart';
+import 'package:llocs/ui_screens/perfil/fotoperfil.dart';
+import 'package:llocs/ui_screens/perfil/pantallas_loggeo.dart';
 
 import '../utils/alert_dialog.dart';
 import '../utils/const.dart';

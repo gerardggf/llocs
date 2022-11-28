@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:llocz/ui_screens/home/widgets/home_item.dart';
-import 'package:llocz/utils/const.dart';
-import 'package:llocz/widgets_globales/app_bar_icons.dart';
-import 'package:llocz/widgets_globales/bottom_nav_bar.dart';
+import 'package:llocs/widgets_globales/lloc_item.dart';
+import 'package:llocs/utils/const.dart';
+import 'package:llocs/widgets_globales/app_bar_icons.dart';
+import 'package:llocs/widgets_globales/bottom_nav_bar.dart';
 
 import '../../models/lloc_model.dart';
 import '../../widgets_globales/app_logo.dart';
