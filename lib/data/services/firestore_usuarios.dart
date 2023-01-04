@@ -1,0 +1,3 @@
+class FireStoreUsuarios {
+  FireStoreUsuarios._();
+}
